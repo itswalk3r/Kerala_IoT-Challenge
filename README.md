@@ -561,6 +561,9 @@ delay(500);// wait for 0.5 second
 
 > Temperature values read by LM35 sensor can be seen in the Serial Moniter.
 
+![image](https://user-images.githubusercontent.com/56971600/138462544-6cf66ae7-ee0f-46c5-9623-ee42a00e7b58.png)
+
+
 <iframe width="560" height="315"
 src=
 

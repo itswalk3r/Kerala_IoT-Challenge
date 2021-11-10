@@ -455,49 +455,69 @@ allowfullscreen></iframe>
 * Arduino Uno Board*1
 * Flame Sensor *1
 * Buzzer *1
-* 10K Resistor *1
-* Breadboard Jumper Wire*6
+* LED *2
+* Breadboard 
+* Jumper Wire*6
 * USB cable*1
 
 ## Circuit Diagram
 
-![image](https://user-images.githubusercontent.com/56971600/138458405-67d985fb-3ea2-4714-87ec-125ccf9ce5c3.png)
+![image](https://user-images.githubusercontent.com/56971600/141062255-a1d478aa-1392-4f93-9b1c-d18d5540345c.png)
+
 
 ## Code
 
 ```
 
-int flame=0;// select analog pin 0 for the sensor
-int Beep=9;// select digital pin 9 for the buzzer
-int val=0;// initialize variable
- void setup() 
+const int buzzerPin = 12;
+const int flamePin = 11;
+int Flame = HIGH;
+int redled = 5;
+int greenled = 6;
+void setup() 
 {
-  pinMode(Beep,OUTPUT);// set LED pin as “output”
- pinMode(flame,INPUT);// set buzzer pin as “input”
- Serial.begin(9600);// set baud rate at “9600”
- } 
-void loop() 
-{ 
-  val=analogRead(flame);// read the analog value of the sensor 
-  Serial.println(val);// output and display the analog value
-  if(val>=600)// when the analog value is larger than 600, the buzzer will buzz
-  {  
-   digitalWrite(Beep,HIGH); 
-   }else 
-   {  
-     digitalWrite(Beep,LOW); 
-    }
-   delay(500); 
+  pinMode(buzzerPin, OUTPUT);
+  pinMode(redled, OUTPUT);
+  pinMode(greenled, OUTPUT);
+
+  pinMode(flamePin, INPUT);
+  Serial.begin(9600);
 }
+
+void loop() 
+{
+  Flame = digitalRead(flamePin);
+  if (Flame== LOW)
+  {
+    digitalWrite(buzzerPin, HIGH);
+    digitalWrite(redled, HIGH);
+    digitalWrite(greenled, LOW);
+  }
+  else
+  {
+    digitalWrite(buzzerPin, LOW);
+    digitalWrite(greenled, HIGH);
+    digitalWrite(redled, LOW);
+  }
+}
+
+
 
 ```
 
 ## Output
 
-> The buzzer produces a beep noise when the IR Reciever is exposed to flames.
+> The buzzer produces a beep noise along with red LED lighting up when the IR Reciever is exposed to flames.
+
+![IMG_20211110_115447](https://user-images.githubusercontent.com/56971600/141062505-eaf1713d-519a-4798-877d-65199c28430e.jpg)
+
 
 <iframe width="560" height="315"
 src=
+
+https://user-images.githubusercontent.com/56971600/141062645-c161b540-638b-4eec-a54d-3497011ea2ba.mp4
+
+
 frameborder="0" 
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
 allowfullscreen></iframe>

@@ -982,6 +982,205 @@ allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen></iframe>
 
 
+# Assignment 1 : Automatic Night Lamp
+
+> An experiment to create automatic night lamp model using LDR and LED.
+
+## Components Required
+
+* Arduino Uno Board
+* Photo Resistor*1
+* Yellow M5 LED*1
+* 10KΩ Resistor*1
+* 220Ω Resistor*1
+* Breadboard*1
+* Breadboard Jumper Wire
+* USB cable*1
+
+## Circuit Diagrams 
+![WhatsApp Image 2021-11-29 at 8 56 56 PM](https://user-images.githubusercontent.com/61041490/143895974-357bac32-8007-4693-8fa8-6d2c7dfb8f45.jpeg)
+
+
+## Code
+
+```
+
+const int ledPin = 13;   //the number of the LED pin
+const int ldrPin = A0;  //the number of the LDR pin
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);  //initialize the LED pin as an output
+  pinMode(ldrPin, INPUT);   //initialize the LDR pin as an input
+}
+void loop() {
+  int ldrStatus = analogRead(ldrPin);   //read the status of the LDR value
+  //check if the LDR status is <= 300
+  //if it is, the LED is HIGH
+   if (ldrStatus <=300) {
+    digitalWrite(ledPin, HIGH);               //turn LED on
+    Serial.println("LDR is DARK, LED is ON");
+   }
+  else {
+    digitalWrite(ledPin, LOW);          //turn LED off
+    Serial.println("LDR is Bright, LED is OFF");
+  }
+}
+
+```
+
+## Output
+
+<iframe width="560" height="315"
+src=
+
+https://user-images.githubusercontent.com/61041490/143898623-1b1fe75f-f15c-4769-b9fc-2f3cdfd857c7.mp4
+
+
+frameborder="0" 
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+allowfullscreen></iframe> 
+
+                                                  
+# Assignment 2 : Digital Dice  
+
+> An experiment to create a Digital Dice using 6 LEDs and 1 Push Button
+
+## Components Required
+
+* Arduino Uno Board*1
+* Breadboard*1
+* Breadboard Jumper Wire
+* USB cable*1
+* LED*6
+* Push Button*1
+* 1KΩ Resistor*1
+* 220Ω Resistor*6
+
+## Circuit Diagrams 
+![WhatsApp Image 2021-11-29 at 9 20 09 PM](https://user-images.githubusercontent.com/61041490/143899472-70967301-7d9a-4364-a113-0174601b22fa.jpeg)
+
+
+                                                                             
+## Code
+
+```
+
+#define DEBUG 0
+// 6 consecutive digital pins for the LEDs
+int first = 2;
+int second = 3;
+int third = 4;
+int fourth = 5;
+int fifth = 6;
+int sixth = 7;
+// pin for the button switch
+int button = 12;
+// value to check state of button switch
+int pressed = 0;
+void setup() {
+  // set all LED pins to OUTPUT
+  for (int i=first; i<=sixth; i++) {
+    pinMode(i, OUTPUT);
+  }
+  // set buttin pin to INPUT
+  pinMode(button, INPUT);
+
+  // initialize random seed by noise from analog pin 0 (should be unconnected)
+  randomSeed(analogRead(0));
+  // if we're debugging, connect to serial 
+  #ifdef DEBUG
+    Serial.begin(9600);
+  #endif
+}
+void buildUpTension() {
+  // light LEDs from left to right and back to build up tension
+  // while waiting for the dice to be thrown
+  // left to right
+  for (int i=first; i<=sixth; i++) {
+    if (i!=first) {
+      digitalWrite(i-1, LOW);
+    }
+    digitalWrite(i, HIGH);
+    delay(100);
+  }
+  // right to left
+  for (int i=sixth; i>=first; i--) {
+    if (i!=sixth) {
+      digitalWrite(i+1, LOW);
+    }
+    digitalWrite(i, HIGH);
+    delay(100);
+  }
+}
+
+void showNumber(int number) {
+  digitalWrite(first, HIGH);
+  if (number >= 2) {
+    digitalWrite(second, HIGH);
+  }
+  if (number >= 3) {
+    digitalWrite(third, HIGH);    
+  }
+  if (number >= 4) {
+    digitalWrite(fourth, HIGH);    
+  }
+  if (number >= 5) {
+    digitalWrite(fifth, HIGH);    
+  }
+  if (number == 6) {
+    digitalWrite(sixth, HIGH);    
+  }
+}
+int throwDice() {
+  // get a random number in the range [1,6]
+  int randNumber = random(1,7);
+  
+  #ifdef DEBUG
+    Serial.println(randNumber);
+  #endif
+  
+  return randNumber;
+}
+
+void setAllLEDs(int value) {
+  for (int i=first; i<=sixth; i++) {
+    digitalWrite(i, value);
+  }
+}
+void loop() {
+  // if button is pressed - throw the dice
+  pressed = digitalRead(button);
+
+  if (pressed == HIGH) {
+    // remove previous number
+    setAllLEDs(LOW); 
+    buildUpTension();
+    int thrownNumber = throwDice();
+    showNumber(thrownNumber);
+  } 
+}
+
+
+```
+
+## Output
+
+
+<iframe width="560" height="315"
+src=
+
+https://user-images.githubusercontent.com/61041490/143901416-9965848a-ea9b-47d9-a980-d5cfce63a0c2.mp4
+
+
+frameborder="0" 
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+allowfullscreen></iframe> 
+
+
+
+
+
+
 
 
 
